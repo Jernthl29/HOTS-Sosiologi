@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meja Investigasi — Kuis Sosiologi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#141F35;
+    --ink-2:#1B2A47;
+    --paper:#EFE2C4;
+    --paper-2:#E4D3A8;
+    --paper-ink:#2B2013;
+    --brass:#C9A227;
+    --brass-2:#E4C554;
+    --rust:#B4453B;
+    --rust-2:#D46257;
+    --teal:#4C7C73;
+    --teal-2:#6EA398;
+    --cream:#F4EAD3;
+    --line: rgba(244,234,211,0.14);
+    --shadow: 0 18px 40px rgba(0,0,0,0.45);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    min-height:100vh;
+    background:
+      radial-gradient(circle at 18% 22%, rgba(244,234,211,0.05) 0, transparent 45%),
+      radial-gradient(circle at 82% 78%, rgba(244,234,211,0.045) 0, transparent 42%),
+      repeating-linear-gradient(0deg, rgba(0,0,0,0.12) 0 1px, transparent 1px 34px),
+      repeating-linear-gradient(90deg, rgba(0,0,0,0.12) 0 1px, transparent 1px 34px),
+      var(--ink);
+    color:var(--cream);
+    font-family:'IBM Plex Sans', sans-serif;
+    display:flex;
+    justify-content:center;
+    padding:28px 16px 60px;
+  }
+  .stage{ width:100%; max-width:920px; }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--brass-2);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:22px; height:1px;
+    background:var(--brass-2);
+    display:inline-block;
+  }
+  h1.title{
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    font-size:clamp(28px, 5vw, 44px);
+    line-height:1.05;
+    margin:10px 0 6px;
+    color:var(--cream);
+  }
+  .sub{
+    font-size:14.5px;
+    color:rgba(244,234,211,0.72);
+    max-width:56ch;
+    line-height:1.55;
+    margin:0 0 22px;
+  }
+
+  /* ---------- INTRO ---------- */
+  #screen-intro .board{
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:26px clamp(18px,4vw,34px) 30px;
+    background:linear-gradient(180deg, rgba(244,234,211,0.03), rgba(244,234,211,0.01));
+  }
+  .brief-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin:22px 0 26px;
+  }
+  .brief-card{
+    background:var(--paper);
+    color:var(--paper-ink);
+    border-radius:3px;
+    padding:14px 14px 16px;
+    box-shadow:0 8px 18px rgba(0,0,0,0.35);
+    transform:rotate(var(--tilt,0deg));
+    position:relative;
+  }
+  .brief-card:nth-child(1){--tilt:-1.4deg;}
+  .brief-card:nth-child(2){--tilt:0.9deg;}
+  .brief-card:nth-child(3){--tilt:-0.6deg;}
+  .brief-card::before{
+    content:"";
+    position:absolute; top:-7px; left:50%; transform:translateX(-50%);
+    width:12px; height:12px; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, var(--rust-2), var(--rust) 70%);
+    box-shadow:0 3px 4px rgba(0,0,0,0.4);
+  }
+  .brief-card .num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--rust);
+    letter-spacing:0.08em;
+  }
+  .brief-card h3{
+    font-family:'Fraunces', serif;
+    font-size:16px;
+    margin:4px 0 5px;
+  }
+  .brief-card p{
+    font-size:12.5px;
+    line-height:1.45;
+    margin:0;
+    color:#4A3B22;
+  }
+  .start-row{ display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+  button{ font-family:'IBM Plex Sans', sans-serif; cursor:pointer; border:none; }
+  .btn-primary{
+    background:var(--brass);
+    color:#241A05;
+    font-weight:700;
+    font-size:15px;
+    padding:14px 26px;
+    border-radius:3px;
+    box-shadow:0 10px 22px rgba(201,162,39,0.28);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 14px 26px rgba(201,162,39,0.36); }
+  .btn-primary:active{ transform:translateY(0px); }
+  .btn-ghost{
+    background:transparent;
+    border:1px solid var(--line);
+    color:var(--cream);
+    padding:13px 20px;
+    border-radius:3px;
+    font-size:13.5px;
+  }
+  .btn-ghost:hover{ border-color:var(--brass-2); color:var(--brass-2); }
+  .rules{ font-size:12.5px; color:rgba(244,234,211,0.55); margin-top:14px; }
+
+  /* ---------- TRAIL (progress pins) ---------- */
+  #trail-wrap{ margin-bottom:18px; }
+  .trail{
+    position:relative;
+    display:flex;
+    gap:4px;
+    padding:14px 6px 4px;
+    overflow-x:auto;
+  }
+  .trail::before{
+    content:"";
+    position:absolute;
+    left:16px; right:16px; top:22px;
+    height:1px;
+    background:rgba(244,234,211,0.18);
+  }
+  .pin{
+    position:relative;
+    flex:0 0 auto;
+    width:16px; height:16px;
+    border-radius:50%;
+    background:rgba(244,234,211,0.14);
+    border:1px solid rgba(244,234,211,0.22);
+    display:flex; align-items:center; justify-content:center;
+    z-index:1;
+  }
+  .pin.correct{ background:radial-gradient(circle at 35% 30%, var(--brass-2), var(--brass) 75%); border-color:var(--brass); box-shadow:0 3px 6px rgba(201,162,39,0.45);}
+  .pin.wrong{ background:radial-gradient(circle at 35% 30%, var(--rust-2), var(--rust) 75%); border-color:var(--rust); box-shadow:0 3px 6px rgba(180,69,59,0.45);}
+  .pin.current{ box-shadow:0 0 0 3px rgba(228,197,84,0.28); }
+
+  .stat-row{
+    display:flex; justify-content:space-between; align-items:baseline;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    color:rgba(244,234,211,0.65);
+    letter-spacing:0.06em;
+    margin:0 6px 4px;
+  }
+  .stat-row b{ color:var(--brass-2); font-weight:600; }
+
+  /* ---------- CASE CARD ---------- */
+  .case-wrap{ display:flex; justify-content:center; margin:6px 0 24px; }
+  .case-card{
+    width:100%;
+    max-width:640px;
+    background:var(--paper);
+    color:var(--paper-ink);
+    border-radius:4px;
+    padding:26px clamp(18px,4vw,30px) 22px;
+    box-shadow:var(--shadow);
+    position:relative;
+    transform:rotate(-0.6deg);
+    animation:dropIn .38s cubic-bezier(.2,.8,.25,1);
+  }
+  @keyframes dropIn{ from{ opacity:0; transform:translateY(-14px) rotate(-0.6deg) scale(0.98);} to{ opacity:1; transform:translateY(0) rotate(-0.6deg) scale(1);} }
+  .case-card::before{
+    content:"";
+    position:absolute; top:-9px; left:50%; transform:translateX(-50%);
+    width:16px; height:16px; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, var(--rust-2), var(--rust) 70%);
+    box-shadow:0 4px 5px rgba(0,0,0,0.4);
+  }
+  .case-head{ display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; }
+  .case-no{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    letter-spacing:0.1em;
+    color:var(--rust);
+    text-transform:uppercase;
+  }
+  .timer-shell{
+    width:96px; height:6px;
+    background:rgba(43,32,19,0.15);
+    border-radius:4px;
+    overflow:hidden;
+  }
+  .timer-fill{ height:100%; background:var(--teal); width:100%; transition:width 1s linear, background .3s ease; }
+  .case-text{
+    font-family:'Fraunces', serif;
+    font-size:clamp(16.5px, 2.4vw, 19px);
+    line-height:1.5;
+    margin:0 0 18px;
+  }
+  .options{ display:flex; flex-direction:column; gap:9px; }
+  .opt{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    text-align:left;
+    background:rgba(255,255,255,0.35);
+    border:1px solid rgba(43,32,19,0.16);
+    border-radius:3px;
+    padding:11px 14px;
+    font-size:14px;
+    line-height:1.4;
+    color:var(--paper-ink);
+    transition:transform .12s ease, background .12s ease, border-color .12s ease;
+  }
+  .opt:hover:not(:disabled){ transform:translateX(3px); background:rgba(255,255,255,0.6); border-color:var(--rust); }
+  .opt:disabled{ cursor:default; }
+  .opt .badge{
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:600;
+    font-size:12px;
+    width:22px; height:22px;
+    min-width:22px;
+    border-radius:50%;
+    background:rgba(43,32,19,0.1);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .opt.is-correct{ background:rgba(201,162,39,0.28); border-color:var(--brass); }
+  .opt.is-correct .badge{ background:var(--brass); color:#241A05; }
+  .opt.is-wrong{ background:rgba(180,69,59,0.22); border-color:var(--rust); }
+  .opt.is-wrong .badge{ background:var(--rust); color:#fff; }
+
+  .feedback{
+    margin-top:16px;
+    padding:12px 14px;
+    border-radius:3px;
+    font-size:13px;
+    line-height:1.5;
+    display:none;
+  }
+  .feedback.show{ display:block; animation:fadeUp .25s ease; }
+  @keyframes fadeUp{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+  .feedback.ok{ background:rgba(201,162,39,0.18); border-left:3px solid var(--brass); }
+  .feedback.no{ background:rgba(180,69,59,0.16); border-left:3px solid var(--rust); }
+  .feedback .tag{ font-family:'IBM Plex Mono', monospace; font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase; display:block; margin-bottom:4px; }
+  .feedback.ok .tag{ color:#8A6C10; }
+  .feedback.no .tag{ color:var(--rust); }
+
+  .next-row{ display:flex; justify-content:flex-end; margin-top:16px; }
+  .btn-next{
+    background:var(--ink);
+    color:var(--cream);
+    font-size:13.5px;
+    font-weight:600;
+    padding:10px 18px;
+    border-radius:3px;
+    display:none;
+    align-items:center;
+    gap:8px;
+  }
+  .btn-next.show{ display:inline-flex; }
+  .btn-next:hover{ background:#0e1728; }
+
+  /* ---------- RESULT ---------- */
+  #screen-result .rank-card{
+    background:linear-gradient(180deg, rgba(244,234,211,0.05), rgba(244,234,211,0.015));
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:28px clamp(18px,4vw,34px);
+    text-align:center;
+    margin-bottom:20px;
+  }
+  .rank-score{
+    font-family:'Fraunces', serif;
+    font-size:clamp(40px,8vw,64px);
+    font-weight:700;
+    color:var(--brass-2);
+    line-height:1;
+  }
+  .rank-score span{ font-size:0.35em; color:rgba(244,234,211,0.5); font-family:'IBM Plex Mono', monospace; }
+  .rank-title{ font-family:'Fraunces', serif; font-size:20px; margin:8px 0 4px; }
+  .rank-desc{ font-size:13px; color:rgba(244,234,211,0.65); max-width:48ch; margin:0 auto; line-height:1.5; }
+
+  .board-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(140px,1fr));
+    gap:10px;
+    margin-bottom:22px;
+  }
+  .mini-card{
+    background:var(--paper);
+    color:var(--paper-ink);
+    border-radius:3px;
+    padding:12px 12px 10px;
+    box-shadow:0 6px 14px rgba(0,0,0,0.32);
+    border-top:4px solid var(--brass);
+    cursor:pointer;
+    transition:transform .15s ease;
+  }
+  .mini-card.wrong{ border-top-color:var(--rust); }
+  .mini-card:hover{ transform:translateY(-3px); }
+  .mini-card .mc-top{ display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
+  .mini-card .mc-no{ font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:#7A6A44; }
+  .mini-card .mc-icon{ font-size:13px; }
+  .mini-card h4{ font-family:'Fraunces', serif; font-size:13.5px; margin:0 0 4px; line-height:1.3; }
+  .mini-card .mc-detail{
+    font-size:11px; line-height:1.4; color:#4A3B22;
+    max-height:0; overflow:hidden; opacity:0;
+    transition:max-height .25s ease, opacity .2s ease, margin-top .2s ease;
+  }
+  .mini-card.open .mc-detail{ max-height:200px; opacity:1; margin-top:6px; }
+
+  .result-actions{ display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
+
+  .hidden{ display:none !important; }
+  footer{
+    text-align:center;
+    font-size:11px;
+    color:rgba(244,234,211,0.35);
+    margin-top:30px;
+    font-family:'IBM Plex Mono', monospace;
+  }
+  @media (max-width:520px){
+    .brief-grid{ grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+
+  <!-- ================= INTRO ================= -->
+  <section id="screen-intro">
+    <div class="eyebrow">Berkas 001 — Sosiologi X</div>
+    <h1 class="title">Meja Investigasi Sosial</h1>
+    <p class="sub">Kamu adalah sosiolog muda yang dipanggil untuk membaca 20 kasus sosial. Setiap kasus adalah potongan fenomena nyata — tugasmu: kenali konsep atau tokoh sosiologi yang paling tepat menjelaskannya, sebelum waktu investigasi habis.</p>
+
+    <div class="board">
+      <div class="brief-grid">
+        <div class="brief-card">
+          <div class="num">CARA MAIN — 01</div>
+          <h3>Baca kasus</h3>
+          <p>Setiap berkas berisi cerita singkat. Pilih satu dari lima kemungkinan penjelasan (A–E).</p>
+        </div>
+        <div class="brief-card">
+          <div class="num">CARA MAIN — 02</div>
+          <h3>Waktu terbatas</h3>
+          <p>Kamu punya 20 detik per kasus. Sematkan jawaban sebelum benang investigasi putus.</p>
+        </div>
+        <div class="brief-card">
+          <div class="num">CARA MAIN — 03</div>
+          <h3>Susun papan bukti</h3>
+          <p>Setiap jawaban benar menambah pin emas di papan investigasimu. Selesaikan 20 kasus!</p>
+        </div>
+      </div>
+
+      <div class="start-row">
+        <button class="btn-primary" id="btn-start">Mulai Investigasi →</button>
+        <button class="btn-ghost" id="btn-skip-rules">20 soal · ± 8 menit</button>
+      </div>
+      <p class="rules">Materi: Tokoh-tokoh sosiologi, fungsi &amp; peran sosiologi, serta paradigma ganda sosiologi.</p>
+    </div>
+  </section>
+
+  <!-- ================= GAME ================= -->
+  <section id="screen-game" class="hidden">
+    <div class="eyebrow">Sedang menyelidiki</div>
+    <h1 class="title" style="font-size:clamp(22px,4vw,30px);">Papan Investigasi</h1>
+
+    <div id="trail-wrap">
+      <div class="stat-row">
+        <span>KASUS <b id="stat-current">1</b> / 20</span>
+        <span>SKOR <b id="stat-score">0</b> · BERUNTUN <b id="stat-streak">0</b></span>
+      </div>
+      <div class="trail" id="trail"></div>
+    </div>
+
+    <div class="case-wrap">
+      <div class="case-card">
+        <div class="case-head">
+          <span class="case-no" id="case-label">BERKAS NO. 01</span>
+          <div class="timer-shell"><div class="timer-fill" id="timer-fill"></div></div>
+        </div>
+        <p class="case-text" id="case-text"></p>
+        <div class="options" id="options"></div>
+        <div class="feedback" id="feedback">
+          <span class="tag" id="feedback-tag"></span>
+          <span id="feedback-text"></span>
+        </div>
+        <div class="next-row">
+          <button class="btn-next" id="btn-next">Kasus berikutnya →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= RESULT ================= -->
+  <section id="screen-result" class="hidden">
+    <div class="eyebrow">Investigasi selesai</div>
+    <h1 class="title">Laporan Akhir</h1>
+    <p class="sub">Ini seluruh papan buktimu. Ketuk satu kartu untuk membuka catatan konsepnya.</p>
+
+    <div class="rank-card">
+      <div class="rank-score" id="final-score">0<span>/20</span></div>
+      <div class="rank-title" id="rank-title"></div>
+      <p class="rank-desc" id="rank-desc"></p>
+    </div>
+
+    <div class="board-grid" id="board-grid"></div>
+
+    <div class="result-actions">
+      <button class="btn-primary" id="btn-restart">Selidiki Ulang</button>
+    </div>
+  </section>
+
+  <footer>MEJA INVESTIGASI SOSIAL · KUIS HOTS SOSIOLOGI KELAS X</footer>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    case:"Warga desa mula-mula percaya gagal panen adalah kutukan roh leluhur. Setelah beberapa generasi, mereka menjelaskannya lewat cuaca dan pola tanam, lalu akhirnya memakai data curah hujan dan uji tanah untuk menentukan waktu tanam terbaik.",
+    options:["Fakta sosial Durkheim","Hukum Tiga Tahap Auguste Comte","Fungsi manifes Robert K. Merton","Interaksionisme simbolik Mead","Teori pertukaran sosial Homans"],
+    answer:1,
+    tag:"Hukum Tiga Tahap",
+    explain:"Comte menjelaskan cara berpikir masyarakat berkembang dari tahap teologis (mitos/kutukan), ke metafisis (penjelasan abstrak), hingga positif — berbasis data dan metode ilmiah, persis seperti alur desa ini."
+  },
+  {
+    case:"Sebuah pabrik tekstil menaikkan target produksi tanpa menaikkan upah buruh. Para buruh membentuk serikat pekerja menuntut kenaikan upah, sementara pemilik pabrik mempertahankan kebijakannya demi keuntungan maksimal.",
+    options:["Herbert Spencer, karena pabrik adalah organisme sosial","Karl Marx, karena adanya pertentangan kepentingan antarkelas","Emile Durkheim, karena adanya fakta sosial yang memaksa","Georg Simmel, karena adanya interaksi sosial","Auguste Comte, karena adanya tahap positif"],
+    answer:1,
+    tag:"Konflik Kelas — Marx",
+    explain:"Marx melihat masyarakat sebagai arena pertentangan kepentingan ekonomi antara kelas pemilik modal (borjuis) dan kelas pekerja (proletar) — persis pertarungan pabrik vs buruh ini."
+  },
+  {
+    case:"Siswa baru merasa \u201caneh\u201d saat melanggar aturan sekolah karena teguran guru dan tatapan teman-temannya membuatnya tidak nyaman, padahal tak ada paksaan fisik apa pun.",
+    options:["Asabiyah Ibnu Khaldun","Fakta sosial Emile Durkheim","Dramaturgi Erving Goffman","Fungsi laten Robert K. Merton","Perilaku sosial B.F. Skinner"],
+    answer:1,
+    tag:"Fakta Sosial",
+    explain:"Fakta sosial Durkheim bersifat eksternal dan memaksa — norma sosial menekan individu tanpa kekerasan fisik, cukup lewat teguran dan tatapan sosial."
+  },
+  {
+    case:"Siswa yang sering dipuji gurunya karena aktif di kelas lama-kelamaan makin percaya diri dan mulai memandang dirinya sebagai \u201canak pintar\u201d.",
+    options:["George Herbert Mead","Charles Horton Cooley","Talcott Parsons","Alfred Schutz","Ralf Dahrendorf"],
+    answer:1,
+    tag:"Looking-Glass Self",
+    explain:"Cooley menjelaskan bahwa konsep diri terbentuk dari bagaimana kita membayangkan penilaian orang lain terhadap diri kita — cermin sosial yang membentuk citra diri siswa itu."
+  },
+  {
+    case:"OSIS resmi bertujuan melatih kepemimpinan siswa. Namun tanpa disadari, kegiatannya juga mempererat pertemanan antaranggota dari kelas berbeda.",
+    options:["Fungsi manifes","Fungsi laten","Fakta sosial","Tindakan sosial","Interaksi simbolik"],
+    answer:1,
+    tag:"Fungsi Laten",
+    explain:"Merton menyebut akibat yang tidak direncanakan dan tidak disadari dari suatu kegiatan sebagai fungsi laten — berbeda dari tujuan resminya (fungsi manifes)."
+  },
+  {
+    case:"Siswa bersikap sangat sopan dan formal di depan guru, tetapi santai dan bercanda bebas bersama teman dekat di kantin.",
+    options:["Fungsionalisme struktural Talcott Parsons","Dramaturgi Erving Goffman","Teori pertukaran sosial George Homans","Fenomenologi Alfred Schutz","Teori konflik Ralf Dahrendorf"],
+    answer:1,
+    tag:"Dramaturgi",
+    explain:"Goffman menganalogikan kehidupan sosial sebagai panggung sandiwara — orang menampilkan peran berbeda di \u201cpanggung depan\u201d (guru) dan \u201cpanggung belakang\u201d (teman dekat)."
+  },
+  {
+    case:"Dua siswa saling membantu tugas kelompok: siswa A menjelaskan materi, siswa B mencarikan referensi. Keduanya merasa diuntungkan dari kerja sama ini.",
+    options:["Fungsi laten","Teori pertukaran sosial","Asabiyah","Fakta sosial","Hukum tiga tahap"],
+    answer:1,
+    tag:"Pertukaran Sosial",
+    explain:"Homans menjelaskan interaksi sosial sebagai proses saling menguntungkan (untung-rugi) antarindividu — persis pola kerja sama dua siswa ini."
+  },
+  {
+    case:"Ditanya guru mengapa sering terlambat, siswa menjawab, \u201cSaya takut kena hukuman kalau salah alasan, jadi saya diam saja.\u201d Guru menyadari diamnya siswa bukan karena tak tahu jawaban, melainkan karena ketakutan.",
+    options:["Fungsionalisme struktural","Fenomenologi Alfred Schutz","Teori konflik","Positivisme Comte","Evolusi sosial Spencer"],
+    answer:1,
+    tag:"Fenomenologi",
+    explain:"Schutz menekankan pentingnya memahami makna subjektif di balik tindakan seseorang dari sudut pandang pelakunya sendiri, bukan hanya dari tindakan yang tampak."
+  },
+  {
+    case:"Sebuah daerah punya tingkat putus sekolah tinggi. Sebelum membuat kebijakan, pemerintah meminta sosiolog meneliti penyebabnya lebih dulu — kemiskinan, jarak sekolah, atau budaya setempat.",
+    options:["Guru/pendidik","Praktisi","Konsultan kebijakan","Ahli riset","Aktivis sosial"],
+    answer:3,
+    tag:"Peran: Ahli Riset",
+    explain:"Meneliti penyebab suatu fenomena sosial sebelum kebijakan dibuat adalah peran sosiolog sebagai ahli riset — mengumpulkan dan menganalisis data lapangan."
+  },
+  {
+    case:"Setelah data menunjukkan penyebab utama putus sekolah adalah kemiskinan, sosiolog diminta memberi masukan kepada dinas pendidikan tentang program bantuan yang paling tepat.",
+    options:["Ahli riset","Konsultan kebijakan","Guru","Peneliti murni","Praktisi lapangan"],
+    answer:1,
+    tag:"Peran: Konsultan Kebijakan",
+    explain:"Memberi masukan berbasis hasil riset kepada pembuat kebijakan adalah peran sosiolog sebagai konsultan kebijakan — menjembatani data dan tindakan nyata."
+  },
+  {
+    case:"Dua kelompok pemuda punya solidaritas tinggi hingga mudah bekerja sama membangun fasilitas umum. Namun saat kebersamaan itu memudar akibat konflik internal, pembangunan terhenti dan kelompok terpecah.",
+    options:["Auguste Comte","Ibnu Khaldun","Harriet Martineau","Jane Addams","W.E.B. Du Bois"],
+    answer:1,
+    tag:"Asabiyah",
+    explain:"Ibnu Khaldun memperkenalkan konsep asabiyah — solidaritas dan kekompakan kelompok yang menentukan kekuatan sekaligus keruntuhan suatu kelompok sosial."
+  },
+  {
+    case:"Peneliti sosial menemukan siswa perempuan di suatu daerah mendapat kesempatan sekolah lebih rendah dibanding laki-laki. Ia menelusuri apakah ada perlakuan tidak setara berdasarkan gender dalam praktiknya, bukan sekadar mencatat jumlah.",
+    options:["Harriet Martineau","Karl Marx","Talcott Parsons","B.F. Skinner","George Homans"],
+    answer:0,
+    tag:"Kesetaraan Gender",
+    explain:"Harriet Martineau dikenal meneliti isu kesetaraan sosial, termasuk gender, secara sistematis dan berbasis data — bukan sekadar prasangka."
+  },
+  {
+    case:"Seorang sosiolog tidak hanya meneliti penyebab kemiskinan di sebuah kota, tetapi juga mendirikan lembaga pelatihan keterampilan dan pendidikan bagi warga miskin agar dapat mencari nafkah mandiri.",
+    options:["Jane Addams","Herbert Spencer","Max Weber","Georg Simmel","Ralf Dahrendorf"],
+    answer:0,
+    tag:"Sosiologi Terapan",
+    explain:"Jane Addams memadukan riset sosial dengan aksi nyata lewat gerakan settlement house — mendirikan lembaga bantuan langsung bagi masyarakat miskin."
+  },
+  {
+    case:"Peneliti menyimpulkan rendahnya prestasi akademik suatu kelompok masyarakat bukan karena kemampuan bawaan, melainkan diskriminasi dan minimnya akses pendidikan yang layak — kesimpulan berbasis data, bukan prasangka.",
+    options:["W.E.B. Du Bois","Auguste Comte","Talcott Parsons","Erving Goffman","Alfred Schutz"],
+    answer:0,
+    tag:"Kritik Diskriminasi",
+    explain:"Du Bois menolak prasangka rasial dan menekankan data empiris untuk menjelaskan ketimpangan sosial yang sesungguhnya disebabkan oleh diskriminasi struktural."
+  },
+  {
+    case:"Keluarga, sekolah, dan pemerintah desa dipandang sebagai bagian-bagian yang saling terhubung dan menjalankan fungsi masing-masing demi menjaga keberlangsungan masyarakat, mirip organ-organ dalam tubuh manusia.",
+    options:["Karl Marx","Herbert Spencer","Emile Durkheim","Georg Simmel","Robert K. Merton"],
+    answer:1,
+    tag:"Analogi Organisme",
+    explain:"Herbert Spencer menganalogikan masyarakat sebagai organisme hidup — setiap bagian (institusi) saling terhubung dan menjalankan fungsi demi kelangsungan keseluruhan."
+  },
+  {
+    case:"Siswa rajin mengerjakan PR setiap hari karena tahu akan mendapat nilai bagus dan pujian orang tua. Ketika suatu hari ia tak lagi dipuji meski tetap rajin, semangatnya perlahan menurun.",
+    options:["Paradigma fakta sosial","Paradigma definisi sosial","Paradigma perilaku sosial","Paradigma konflik","Paradigma fungsional"],
+    answer:2,
+    tag:"Perilaku Sosial",
+    explain:"Paradigma perilaku sosial (behaviorisme) menjelaskan perilaku sebagai respons terhadap stimulus berupa ganjaran atau penguatan — saat ganjaran (pujian) hilang, perilaku pun melemah."
+  },
+  {
+    case:"Saat dua siswa berkelahi, guru BK tidak langsung menghukum, tetapi lebih dulu bertanya kepada masing-masing siswa tentang alasan dan makna di balik tindakan mereka sebelum mengambil keputusan.",
+    options:["Fakta sosial","Definisi sosial","Perilaku sosial","Struktural fungsional","Positivisme"],
+    answer:1,
+    tag:"Definisi Sosial",
+    explain:"Paradigma definisi sosial menekankan pemahaman makna subjektif di balik tindakan individu — sesuai langkah guru BK menggali alasan dari sudut pandang siswa."
+  },
+  {
+    case:"Siswa memakai seragam lengkap setiap hari bukan karena keinginan pribadi, melainkan karena aturan sekolah yang mengikat seluruh siswa dan memberi sanksi bagi yang melanggar.",
+    options:["Definisi sosial","Perilaku sosial","Fakta sosial","Fenomenologi","Interaksionisme simbolik"],
+    answer:2,
+    tag:"Fakta Sosial",
+    explain:"Paradigma fakta sosial melihat struktur dan aturan sebagai kekuatan eksternal yang mengikat serta memaksa individu, lengkap dengan sanksi bagi pelanggarnya."
+  },
+  {
+    case:"Guru BK menganalisis siswa yang sering terlambat dari tiga sudut sekaligus: kondisi keluarga/aturan, alasan pribadi siswa, dan faktor lingkungan yang membuatnya terus mengulang keterlambatan.",
+    options:["Empiris semata","Berparadigma ganda","Nonetis","Kumulatif","Deduktif murni"],
+    answer:1,
+    tag:"Paradigma Ganda",
+    explain:"Menganalisis satu kasus dari beberapa sudut pandang sekaligus (fakta sosial, definisi sosial, perilaku sosial) menunjukkan sifat sosiologi yang berparadigma ganda."
+  },
+  {
+    case:"Pemerintah kota meminta sosiolog untuk meneliti akar penyebab tawuran, merancang program pencegahan berbasis sekolah, dan ikut terjun langsung mendampingi program di lapangan — sekaligus dalam satu kasus.",
+    options:["Penelitian saja","Penelitian, perencanaan sosial, dan pemecahan masalah sosial secara bersamaan","Hanya fungsi pembangunan","Hanya peran sebagai guru/pendidik","Hanya paradigma perilaku sosial"],
+    answer:1,
+    tag:"Multi-Fungsi Sosiologi",
+    explain:"Rangkaian meneliti, merancang program, dan mendampingi lapangan menunjukkan sosiologi menjalankan fungsi penelitian, perencanaan sosial, dan pemecahan masalah sosial sekaligus."
+  }
+];
+
+const TIME_PER_Q = 20;
+let current = 0, score = 0, streak = 0, timer = null, timeLeft = TIME_PER_Q, locked = false;
+const results = []; // {correct:bool}
+
+const screenIntro = document.getElementById('screen-intro');
+const screenGame = document.getElementById('screen-game');
+const screenResult = document.getElementById('screen-result');
+
+document.getElementById('btn-start').addEventListener('click', startGame);
+document.getElementById('btn-skip-rules').addEventListener('click', startGame);
+document.getElementById('btn-next').addEventListener('click', nextCase);
+document.getElementById('btn-restart').addEventListener('click', restart);
+
+function buildTrail(){
+  const trail = document.getElementById('trail');
+  trail.innerHTML = '';
+  QUESTIONS.forEach((_, i) => {
+    const pin = document.createElement('div');
+    pin.className = 'pin';
+    pin.id = 'pin-' + i;
+    trail.appendChild(pin);
+  });
+}
+
+function startGame(){
+  screenIntro.classList.add('hidden');
+  screenGame.classList.remove('hidden');
+  buildTrail();
+  renderCase();
+}
+
+function renderCase(){
+  locked = false;
+  const q = QUESTIONS[current];
+  document.getElementById('case-label').textContent = 'BERKAS NO. ' + String(current+1).padStart(2,'0');
+  document.getElementById('case-text').textContent = q.case;
+  document.getElementById('stat-current').textContent = current + 1;
+  document.getElementById('stat-score').textContent = score;
+  document.getElementById('stat-streak').textContent = streak;
+
+  document.getElementById('pin-' + current).classList.add('current');
+
+  const optWrap = document.getElementById('options');
+  optWrap.innerHTML = '';
+  const letters = ['A','B','C','D','E'];
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt';
+    btn.innerHTML = '<span class="badge">' + letters[i] + '</span><span>' + opt + '</span>';
+    btn.addEventListener('click', () => selectAnswer(i));
+    optWrap.appendChild(btn);
+  });
+
+  const fb = document.getElementById('feedback');
+  fb.classList.remove('show','ok','no');
+  document.getElementById('btn-next').classList.remove('show');
+
+  timeLeft = TIME_PER_Q;
+  updateTimerBar();
+  clearInterval(timer);
+  timer = setInterval(() => {
+    timeLeft -= 1;
+    updateTimerBar();
+    if(timeLeft <= 0){
+      clearInterval(timer);
+      if(!locked) selectAnswer(-1);
+    }
+  }, 1000);
+}
+
+function updateTimerBar(){
+  const fill = document.getElementById('timer-fill');
+  const pct = Math.max(0, (timeLeft / TIME_PER_Q) * 100);
+  fill.style.width = pct + '%';
+  fill.style.background = pct < 30 ? 'var(--rust)' : (pct < 60 ? 'var(--brass)' : 'var(--teal)');
+}
+
+function selectAnswer(idx){
+  if(locked) return;
+  locked = true;
+  clearInterval(timer);
+  const q = QUESTIONS[current];
+  const isCorrect = idx === q.answer;
+  const opts = document.querySelectorAll('#options .opt');
+  opts.forEach((btn, i) => {
+    btn.disabled = true;
+    if(i === q.answer) btn.classList.add('is-correct');
+    if(i === idx && !isCorrect) btn.classList.add('is-wrong');
+  });
+
+  const pin = document.getElementById('pin-' + current);
+  pin.classList.remove('current');
+  pin.classList.add(isCorrect ? 'correct' : 'wrong');
+
+  const fb = document.getElementById('feedback');
+  fb.classList.add('show', isCorrect ? 'ok' : 'no');
+  document.getElementById('feedback-tag').textContent = isCorrect ? 'Bukti tersemat — ' + q.tag : 'Catatan — ' + q.tag;
+  document.getElementById('feedback-text').textContent = q.explain;
+
+  if(isCorrect){ score += 1; streak += 1; } else { streak = 0; }
+  document.getElementById('stat-score').textContent = score;
+  document.getElementById('stat-streak').textContent = streak;
+
+  results.push({correct:isCorrect});
+  document.getElementById('btn-next').classList.add('show');
+  document.getElementById('btn-next').textContent = (current === QUESTIONS.length - 1) ? 'Lihat laporan akhir →' : 'Kasus berikutnya →';
+}
+
+function nextCase(){
+  current += 1;
+  if(current >= QUESTIONS.length){
+    showResult();
+  } else {
+    renderCase();
+  }
+}
+
+function showResult(){
+  clearInterval(timer);
+  screenGame.classList.add('hidden');
+  screenResult.classList.remove('hidden');
+
+  document.getElementById('final-score').innerHTML = score + '<span>/' + QUESTIONS.length + '</span>';
+
+  const pct = score / QUESTIONS.length;
+  let title, desc;
+  if(pct >= 0.9){ title = 'Master Sosiolog — Detektif Ulung'; desc = 'Nyaris seluruh papan bukti tersusun rapi. Kamu membaca fenomena sosial seperti sosiolog berpengalaman.'; }
+  else if(pct >= 0.7){ title = 'Peneliti Ahli'; desc = 'Sebagian besar kasus terpecahkan. Pemahamanmu tentang tokoh dan paradigma sosiologi sudah cukup kuat.'; }
+  else if(pct >= 0.5){ title = 'Sosiolog Lapangan'; desc = 'Kamu mengenali sejumlah pola penting, tapi masih ada beberapa berkas yang perlu diselidiki ulang.'; }
+  else { title = 'Sosiolog Pemula'; desc = 'Baru langkah awal! Buka kembali setiap berkas di bawah untuk mempelajari konsepnya sebelum investigasi berikutnya.'; }
+  document.getElementById('rank-title').textContent = title;
+  document.getElementById('rank-desc').textContent = desc;
+
+  const grid = document.getElementById('board-grid');
+  grid.innerHTML = '';
+  QUESTIONS.forEach((q, i) => {
+    const r = results[i];
+    const card = document.createElement('div');
+    card.className = 'mini-card' + (r.correct ? '' : ' wrong');
+    card.innerHTML =
+      '<div class="mc-top"><span class="mc-no">BERKAS ' + String(i+1).padStart(2,'0') + '</span><span class="mc-icon">' + (r.correct ? '✓' : '✕') + '</span></div>' +
+      '<h4>' + q.tag + '</h4>' +
+      '<div class="mc-detail">' + q.explain + '</div>';
+    card.addEventListener('click', () => card.classList.toggle('open'));
+    grid.appendChild(card);
+  });
+}
+
+function restart(){
+  current = 0; score = 0; streak = 0; results.length = 0;
+  screenResult.classList.add('hidden');
+  screenIntro.classList.remove('hidden');
+}
+</script>
+</body>
+</html>
